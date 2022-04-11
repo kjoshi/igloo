@@ -11,3 +11,6 @@
 /.nrepl-port
 /.idea
 shadow-cljs-tailwind.iml
+
+# Local Netlify folder
+.netlify
