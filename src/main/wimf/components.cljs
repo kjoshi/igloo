@@ -63,9 +63,7 @@
           [:button {:class "text-gray-900 border border-2 rounded-xl border-current py-2 text-xl font-medium w-full hover:bg-gray-200"
                     :type "submit"
                     :disabled submitting?}
-           "Save"]
-          ]
-         )])))
+           "Save"]])])))
 
 (comment
   (def errors (vlad/field-errors form-validation {:test 4}))

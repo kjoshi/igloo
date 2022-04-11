@@ -12,8 +12,8 @@
                 (s/map-of ::id ::item)
                 #(instance? PersistentTreeMap %)))
 
-(s/def ::active-mode #{:new :edit})
-(s/def ::form (s/keys :opt-un [::id ::name ::quantity ::created ::active-mode]))
+(s/def ::active #{:new :edit})
+(s/def ::form (s/keys :opt-un [::id ::name ::quantity ::created ::active]))
 
 (s/def ::sort-key #{:name :created :quantity})
 (s/def ::reverse-sort? boolean?)
