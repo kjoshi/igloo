@@ -3,53 +3,7 @@
             [reagent.core :as r]
             [wimf.util :refer [date-string]]
             [wimf.components :as c]
-            [clojure.string :as s]
             ["@headlessui/react" :refer (Dialog Menu)]))
-
-(defn iinput [{:keys [value on-save]}]
-  (let [val (r/atom (or value ""))
-        save #(let [v (-> @val str s/trim)]
-                (on-save v))]
-    (fn [props]
-      [:input (merge (dissoc props :value :on-save)
-                     {:value @val
-                      :on-blur save
-                      :on-change #(reset! val (.. % -target -value))
-                      :class "mt-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"})])))
-
-(defn input [{:keys [type attrs value on-save]}]
-  (let [draft (r/atom nil)
-        value (r/track #(or @draft @value ""))]
-    (fn []
-      [:input
-       (merge attrs
-              {:type type
-               :on-focus #(reset! draft (or @value ""))
-               :on-blur (fn []
-                          (on-save (or @draft ""))
-                          (reset! draft nil))
-               :on-change #(reset! draft (.. % -target -value))
-               :value @value
-               :class "mt-2 block w-full rounded-md bg-gray-200 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0"})])))
-
-(defn text-input [{attrs :attrs
-                   value :value
-                   :keys [on-save]}]
-  [input {:type :text
-          :attrs attrs
-          :value value
-          :on-save on-save}])
-
-(defn number-input [{attrs :attrs
-                     value :value
-                     :keys [on-save]}]
-  [input {:type :number
-          :attrs attrs
-          :value value
-          :on-save on-save}])
-
-(defn date-input [props]
-  [iinput (merge {:type :date} props)])
 
 (defn svg [d-element props]
   (let [color "text-gray-900"]
@@ -72,6 +26,13 @@
 (defn close-form-button [item-id]
   [svg-button "M6 18L18 6M6 6l12 12"
    {:on-click #(rf/dispatch [:form/deactivate item-id])}])
+
+(defn settings-button []
+  [:div.grow-0
+  [:button {:class "text-gray-900 border border-2 rounded-xl border-current text-current p-2 font-medium hover:bg-gray-200 grow-0"}
+   [:svg {:xmlns "http://www.w3.org/2000/svg", :class "h-8 w-8", :fill "none", :viewBox "0 0 24 24", :stroke "currentColor", :stroke-width "2"}
+    [:path {:stroke-linecap "round", :stroke-linejoin "round", :d "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"}]
+    [:path {:stroke-linecap "round", :stroke-linejoin "round", :d "M15 12a3 3 0 11-6 0 3 3 0 016 0z"}]]]])
 
 (defn location-indicator []
   (let [checked (r/atom false)]
@@ -134,7 +95,8 @@
 (defn header []
   [:div.w-full.flex.justify-between.items-center.py-4
    [:div {:class "text-2xl pr-8 font-bold"} "Freezer Tracker"]
-   [:div.flex.justify-around.gap-x-8
+   [:div.flex.justify-around.gap-x-4
+    [settings-button]
     [:> Menu {:as "div" :class "relative inline-block"}
      [:> (.-Button Menu)
       [svg "M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"]]

@@ -64,7 +64,7 @@
 (rf/reg-sub
  :form/active-mode
  (fn [db _]
-   (-> db :form :active)))
+   (-> db :form :active-mode)))
 
 (rf/reg-sub
  :form/active-new?
@@ -82,21 +82,15 @@
  :form/active?
  :<- [:form/active-mode]
  (fn [active-mode _]
-   (boolean active-mode)))
-
-(rf/reg-sub
- :form/has-blanks?
- :<- [:form/fields]
- (fn [fields _]
-   (or (empty? (:name fields))
-       (some? (:quantity fields))
-       (empty? (:created fields)))))
+   (not= :inactive active-mode)))
 
 (comment
 
   (into (sorted-map) (filter (fn [[_ {quantity :quantity}]] (pos? quantity)) (:items db/default-db)))
 
   (boolean nil)
+
+  (boolean :new)
 
   ;
   )
