@@ -26,7 +26,6 @@
 (s/def ::db (s/keys :req-un [::items ::sort-key ::reverse-sort? ::form ::freezer]))
 
 (def ls-key "wimf-items")                         ;; localstore key
-(def freezer-key "igloo-setup")
 
 (defn items->local-store
   "Puts items into localStorage"
@@ -41,17 +40,18 @@
                 (some->> (.getItem js/localStorage ls-key)
                          (cljs.reader/read-string))))))
 
-(defn freezer->local-store
-  "Puts freezer setup into localStorage"
-  [freezer]
-  (.setItem js/localStorage freezer-key (str freezer)))
+(def db-key-v1 "igloo-db.v1")
+(defn db->local-store
+  "Puts app-db into localStorage"
+  [db]
+  (.setItem js/localStorage db-key-v1 (str db)))
 
 (rf/reg-cofx
- :local-store-freezer
+ :local-store-db
  (fn [cofx _]
    (assoc cofx :local-store-freezer
           (into (sorted-map)
-                (some->> (.getItem js/localStorage freezer-key)
+                (some->> (.getItem js/localStorage db-key-v1)
                          (cljs.reader/read-string))))))
 
 (def default-items

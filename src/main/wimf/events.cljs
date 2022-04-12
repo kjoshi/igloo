@@ -10,14 +10,15 @@
 (def check-spec-interceptor (rf/after (partial check-and-throw :wimf.db/db)))
 
 (def items->local-store (rf/after db/items->local-store))
+(def db->local-store (rf/after db/db->local-store))
 (def item-interceptors [check-spec-interceptor
+                        db->local-store
                         (rf/path :items)
                         items->local-store])
 
-(def freezer->local-store (rf/after db/freezer->local-store))
-(def freezer-interceptors [check-spec-interceptor
-                           (rf/path :freezer)
-                           freezer->local-store])
+#_(def freezer-interceptors [check-spec-interceptor
+                           (rf/after db/db->local-store)
+                           (rf/path :freezer)])
 
 (def form-interceptors [check-spec-interceptor
                         (rf/path :form)])
@@ -124,11 +125,12 @@
 (rf/reg-event-fx
  :app/initialize
  [(rf/inject-cofx :local-store-items)
-  (rf/inject-cofx :local-store-freezer)
+  (rf/inject-cofx :local-store-db)
   check-spec-interceptor]
- (fn [{:keys [local-store-items local-store-freezer]} _]
-   {:db (assoc db/default-db :items (merge (:items db/default-db) local-store-items)
-               :freezer (merge (:freezer db/default-db) local-store-freezer))}))
+ (fn [{:keys [local-store-items local-store-db]} _]
+   {:db (cond-> db/default-db
+          (seq local-store-items) (assoc :items local-store-items)
+          (seq local-store-db) (merge local-store-db))}))
 
 (comment
   db/default-db
@@ -145,6 +147,18 @@
 
   (cond-> m
     (:quantity m) (update :quantity js/parseInt))
+
+  (def local-store-items {})
+  (def local-store-db {:sort-key :quantity})
+
+  (cond-> db/default-db
+    (seq local-store-items) (assoc :items local-store-items)
+    (seq local-store-db) (merge local-store-db))
+
+  (merge {} {:items ["a" "b" "c"]} {:sort-key :created :items [1 2 3]})
+
+ ;; wimf-items
+ ;; {1 {:id 1, :name "Tomato bolognese with mushrooms", :quantity 0, :created "2022-04-05"}, 2 {:id 2, :name "Daal with spinach", :quantity 3, :created "2022-04-02"}, 4 {:id 4, :name "Pea Soup", :quantity 3, :created "2022-04-10"}, 5 {:id 5, :name "Test", :quantity 2, :created "2022-04-10"}, 6 {:id 6, :name "test 4", :quantity 2, :created "2022-04-10"}, 7 {:id 7, :name "Chicken & sun dried tomato", :quantity 3, :created "2022-04-11"}, 8 {:id 8, :name "Testing", :quantity 3, :created "2022-04-11"}}
 
 ;
   )
