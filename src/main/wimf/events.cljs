@@ -16,10 +16,6 @@
                         (rf/path :items)
                         items->local-store])
 
-#_(def freezer-interceptors [check-spec-interceptor
-                           (rf/after db/db->local-store)
-                           (rf/path :freezer)])
-
 (def form-interceptors [check-spec-interceptor
                         (rf/path :form)])
 
@@ -90,7 +86,6 @@
          full-item (cond-> item
                      (not (:id item))      (assoc :id item-id)
                      (not (:created item)) (assoc :created (js/Date.)))]
-     (println full-item)
      (assoc items item-id full-item))))
 
 (rf/reg-event-db
@@ -108,6 +103,19 @@
    {:db (dissoc db id)
     :fx [[:dispatch [:form/clear-fields]]]}))
 
+(defn toggle-id [id current-ids]
+  (let [id-set (hash-set id)]
+    (if (some id-set current-ids)
+      (vec (remove id-set current-ids))
+      (conj current-ids id))))
+
+(rf/reg-event-db
+ :item/toggle-section
+ [item-interceptors]
+ (fn [items [_ item-id section-id]]
+   (let [current-ids (get-in items [item-id :section-ids] [])]
+     (assoc-in items [item-id :section-ids] (toggle-id section-id current-ids)))))
+
 (rf/reg-event-db
  :items/set-sort-key
  [check-spec-interceptor]
@@ -117,8 +125,15 @@
 (rf/reg-event-db
  :items/toggle-reverse-sort
  [check-spec-interceptor]
- (fn [db [_ _]]
+ (fn [db _]
    (update db :reverse-sort? not)))
+
+(rf/reg-event-db
+ :toggle-show-locations
+ [check-spec-interceptor
+  db->local-store]
+ (fn [db _]
+   (update db :show-locations? not)))
 
 ;; App events
 
@@ -157,8 +172,24 @@
 
   (merge {} {:items ["a" "b" "c"]} {:sort-key :created :items [1 2 3]})
 
+  (def i {1 {:name "test" :quantity 2 :section-ids [1]}})
+
+  (get-in i [1 :section-ids] [])
+
  ;; wimf-items
  ;; {1 {:id 1, :name "Tomato bolognese with mushrooms", :quantity 0, :created "2022-04-05"}, 2 {:id 2, :name "Daal with spinach", :quantity 3, :created "2022-04-02"}, 4 {:id 4, :name "Pea Soup", :quantity 3, :created "2022-04-10"}, 5 {:id 5, :name "Test", :quantity 2, :created "2022-04-10"}, 6 {:id 6, :name "test 4", :quantity 2, :created "2022-04-10"}, 7 {:id 7, :name "Chicken & sun dried tomato", :quantity 3, :created "2022-04-11"}, 8 {:id 8, :name "Testing", :quantity 3, :created "2022-04-11"}}
+
+  (toggle-id 2 [2 1 3])
+
+  (def m1 (sorted-map :a 1 :b 2 :c (sorted-map :d 4 :e 5)))
+  (type m1)
+
+  (def m2 (sorted-map :x 3 :y 4 :z (sorted-map :zz 1 :yy 2)))
+
+  (def m3 (merge m1 m2))
+
+  (type m3)
+  (type (:c m3))
 
 ;
   )

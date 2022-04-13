@@ -13,6 +13,10 @@
    (:reverse-sort? db)))
 
 (rf/reg-sub
+  :show-locations?
+  :-> :show-locations?)
+
+(rf/reg-sub
  :items/list
  (fn [db _]
    (:items db)))
@@ -83,6 +87,18 @@
  :<- [:form/active-mode]
  (fn [active-mode _]
    (not= :inactive active-mode)))
+
+;; Freezer subscriptions
+(rf/reg-sub
+ :freezer/sections
+ :-> :freezer)
+
+(rf/reg-sub
+  :freezer/num-sections
+  :<- [:freezer/sections]
+  (fn [sections _]
+    (count sections)))
+
 
 (comment
 
