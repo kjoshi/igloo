@@ -22,7 +22,7 @@
                     (or text-colour "text-gray-900")
                     (or bg-colour "bg-white")
                     (or hover-colour "hover:bg-gray-200")]
-            :type type
+            :type (or type "button")
             :on-click on-click}
    (or title "Save")])
 

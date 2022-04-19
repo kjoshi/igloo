@@ -4,6 +4,7 @@
             [igloo.features.configuration :refer [config-form]]
             [igloo.features.item :refer [item]]
             [igloo.features.item-form :refer [item-dialog]]
+            [igloo.features.announcement :refer [announcement-dialog]]
             ["@headlessui/react" :refer (Menu)]))
 
 (defn svg [d-element props]
@@ -67,6 +68,7 @@
            [:hr]
            [item-list empty-items]])]
        [item-dialog]
+       [announcement-dialog]
        [config-form]])))
 
 

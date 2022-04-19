@@ -17,6 +17,7 @@
 ;;
 ;; Interceptors
 (def form-interceptors [common/check-spec-interceptor
+                        common/db->local-store
                         (rf/path :form)])
 
 ;;

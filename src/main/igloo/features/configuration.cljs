@@ -172,7 +172,14 @@
          [:> (.-Title Dialog) {:class "flex justify-between items-center"}
           [:div.text-2xl.font-bold.leading-6.text-gray-900 "Setup"]
           [close-form-button #(rf/dispatch [:config-form/deactivate])]]
-         [:div.my-4.flex.items-center.text-xl
+         [:div.flex.items-center.my-4.text-xl.text-gray-900.mt-2 "Show welcome message"
+          [:div.pl-2
+           [button {:width "w-16"
+                    :text-size "text-sm"
+                    :border-width "border-1"
+                    :title "Show"
+                    :on-click #(rf/dispatch [:announcement/open])}]]]
+         [:div.my-2.flex.items-center.text-xl
           [:label.pr-4 {:for "show-locations"} "Show freezer sections?"]
           [:input {:type "checkbox"
                    :id "show-locations"
