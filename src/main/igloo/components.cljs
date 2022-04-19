@@ -1,4 +1,4 @@
-(ns wimf.components)
+(ns igloo.components)
 
 (defn icon-button [svg-path-d {:keys [size-class on-click]}]
   [:button {:class ["border" "border-2" "rounded-xl" "border-current" "text-current" "p-2" "font-medium" "hover:bg-gray-200"]

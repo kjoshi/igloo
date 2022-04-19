@@ -1,8 +1,7 @@
-(ns wimf.core
+(ns igloo.core
   (:require [reagent.dom :as dom]
-            [wimf.views :as views]
-            [wimf.common]
-            [wimf.subs]
+            [igloo.views :as views]
+            [igloo.init]
             [re-frame.core :as rf]))
 
 (enable-console-print!) 

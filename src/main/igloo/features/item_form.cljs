@@ -1,11 +1,11 @@
-(ns wimf.features.item-form
+(ns igloo.features.item-form
   (:require [re-frame.core :as rf]
             ["@headlessui/react" :refer (Dialog)]
             [fork.re-frame :as fork]
             [vlad.core :as vlad]
-            [wimf.components :refer [button close-form-button]]
-            [wimf.common :as common]
-            [wimf.util :refer [current-date]]))
+            [igloo.components :refer [button close-form-button]]
+            [igloo.features.common :as common]
+            [igloo.util :refer [current-date]]))
 
 ;;
 ;; Helpers

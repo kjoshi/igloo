@@ -14,3 +14,5 @@ shadow-cljs-tailwind.iml
 
 # Local Netlify folder
 .netlify
+
+.DS_Store

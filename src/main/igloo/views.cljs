@@ -1,9 +1,9 @@
-(ns wimf.views
+(ns igloo.views
   (:require [re-frame.core :as rf]
-            [wimf.components :refer [icon-button]]
-            [wimf.features.configuration :refer [config-form]]
-            [wimf.features.item :refer [item]]
-            [wimf.features.item-form :refer [item-dialog]]
+            [igloo.components :refer [icon-button]]
+            [igloo.features.configuration :refer [config-form]]
+            [igloo.features.item :refer [item]]
+            [igloo.features.item-form :refer [item-dialog]]
             ["@headlessui/react" :refer (Menu)]))
 
 (defn svg [d-element props]
@@ -39,7 +39,7 @@
 
 (defn header []
   [:div.w-full.flex.justify-between.items-center.py-4
-   [:div {:class "text-2xl pr-8 font-bold"} "Freezer Tracker"]
+   [:div {:class "text-2xl pr-8 font-bold"} "Igloo"]
    [:div.flex.justify-around.gap-x-4
     [settings-button]
     [:> Menu {:as "div" :class "relative inline-block"}

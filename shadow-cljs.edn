@@ -12,7 +12,7 @@
    :asset-path "/js"
    :modules
    {:main
-    {:init-fn wimf.core/init}}
+    {:init-fn igloo.core/init}}
    :devtools
    {:preloads [day8.re-frame-10x.preload]}
    :dev

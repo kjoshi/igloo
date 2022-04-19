@@ -1,10 +1,10 @@
-(ns wimf.features.item
+(ns igloo.features.item
   (:require
    [re-frame.core :as rf]
-   [wimf.db :as db]
-   [wimf.components :refer [icon-button]]
-   [wimf.common :as common]
-   [wimf.util :refer [date-string]]))
+   [igloo.db :as db]
+   [igloo.components :refer [icon-button]]
+   [igloo.features.common :as common]
+   [igloo.util :refer [date-string]]))
 
 ;;
 ;; Helper functions 

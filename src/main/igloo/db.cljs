@@ -1,4 +1,4 @@
-(ns wimf.db
+(ns igloo.db
   (:require [cljs.reader]
             [re-frame.core :as rf]
             [clojure.spec.alpha :as s]))
@@ -28,7 +28,11 @@
 
 (s/def ::show-locations? boolean?)
 
-(s/def ::db (s/keys :req-un [::items ::sort-key ::reverse-sort? ::form ::config-form ::freezer ::show-locations?]))
+(s/def ::announcement-id int?)
+(s/def ::announcement-id-seen int?)
+(s/def ::announcement-visible? boolean?)
+
+(s/def ::db (s/keys :req-un [::items ::sort-key ::reverse-sort? ::form ::config-form ::freezer ::show-locations? ::announcement-id ::announcement-id-seen ::announcement-visible?]))
 
 (def ls-key "wimf-items")                         ;; localstore key
 
@@ -70,7 +74,7 @@
       :created "2022-04-05"
       :section-ids []}
    2  {:id 2
-       :name "Daal with spinach"
+       :name "Tomato soup"
        :quantity 3
        :created "2022-04-02"
        :section-ids []}})
@@ -93,6 +97,9 @@
    :form {:active-mode :inactive}
    :config-form {:active-mode :inactive}
    :show-locations? true
+   :announcement-id 1
+   :announcement-id-seen 0
+   :announcement-visible? false
    :freezer (into (sorted-map) default-freezer)})
 
 (defn initial-data [sections]
@@ -110,6 +117,5 @@
   (remove #{2} [1 2 3])
 
   (initial-data default-freezer)
-
 ;
 ) ; nil

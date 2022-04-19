@@ -1,7 +1,7 @@
-(ns wimf.features.configuration
+(ns igloo.features.configuration
   (:require [re-frame.core :as rf]
-            [wimf.common :as common]
-            [wimf.components :refer [close-form-button button]]
+            [igloo.features.common :as common]
+            [igloo.components :refer [close-form-button button]]
             [fork.re-frame :as fork]
             ["@headlessui/react" :refer (Dialog)]))
 
