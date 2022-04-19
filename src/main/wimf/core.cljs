@@ -1,7 +1,7 @@
 (ns wimf.core
   (:require [reagent.dom :as dom]
             [wimf.views :as views]
-            [wimf.events]
+            [wimf.common]
             [wimf.subs]
             [re-frame.core :as rf]))
 

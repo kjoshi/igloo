@@ -1,6 +1,6 @@
-(ns wimf.configform
+(ns wimf.features.configuration
   (:require [re-frame.core :as rf]
-            [wimf.events :as events]
+            [wimf.common :as common]
             [wimf.components :refer [close-form-button button]]
             [fork.re-frame :as fork]
             ["@headlessui/react" :refer (Dialog)]))
@@ -13,13 +13,13 @@
 ;; Interceptors
 
 (def form-interceptors
-  [events/check-spec-interceptor
-   events/db->local-store
+  [common/check-spec-interceptor
+   common/db->local-store
    (rf/path :config-form)])
 
 (def freezer-interceptors
-  [events/check-spec-interceptor
-   events/db->local-store
+  [common/check-spec-interceptor
+   common/db->local-store
    (rf/path :freezer)])
 
 ;;
@@ -52,6 +52,19 @@
      {:db section-map
       :fx [[:dispatch [:config-form/deactivate]]]})))
 
+(rf/reg-event-db
+ :toggle-show-locations
+ [common/check-spec-interceptor
+  common/db->local-store]
+ (fn [db _]
+   (update db :show-locations? not)))
+
+(rf/reg-event-db
+ :config/toggle-reverse-sort
+ [common/check-spec-interceptor]
+ (fn [db _]
+   (update db :reverse-sort? not)))
+
 ;;
 ;; Subscriptions
 
@@ -66,6 +79,23 @@
  (fn [active-mode]
    (not= :inactive active-mode)))
 
+(rf/reg-sub
+ :config/show-locations?
+ :-> :show-locations?)
+
+(rf/reg-sub
+ :freezer/sections
+ :-> :freezer)
+
+(rf/reg-sub
+ :config/sort-key
+ (fn [db _]
+   (:sort-key db)))
+
+(rf/reg-sub
+ :config/reverse-sort?
+ (fn [db _]
+   (:reverse-sort? db)))
 ;;
 ;; Components
 
@@ -131,7 +161,7 @@
 
 (defn config-form []
   (let [active? (rf/subscribe [:config-form/active?])
-        show-locations? (rf/subscribe [:show-locations?])]
+        show-locations? (rf/subscribe [:config/show-locations?])]
     (fn []
       [:> Dialog {:class "fixed inset-0 z-10 overflow-y-auto"
                   :open @active?
