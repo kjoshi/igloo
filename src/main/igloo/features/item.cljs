@@ -119,7 +119,6 @@
    [icon-button  "M18 12H6"
     {:on-click #(rf/dispatch [:item/decrement item-id])}]])
 
-
 ;;
 ;; Views
 (defn item-sections []
@@ -137,20 +136,19 @@
 (defn item []
   (let [show-locations? (rf/subscribe [:config/show-locations?])]
     (fn [{:keys [id name quantity created section-ids]}]
-      (let [color-modifier (if (zero? quantity) "400" "900")]
-        [:div {:class (str "flex justify-start border border-2 py-4 rounded-xl min-h-[7rem] bg-white " "border-gray-" color-modifier)}
-         (when (and @show-locations? (pos? quantity))
-           [item-sections id section-ids])
-         [:div {:class "grid grid-cols-5 gap-x-1 mg:gap-x-6 flex-auto"}
-          [:div.col-span-3.cursor-pointer.flex.flex-col.justify-center.items-center.text-center.gap-1.px-2
-           {:on-click #(rf/dispatch [:form/open-edit {:id id
-                                                      :name name
-                                                      :quantity quantity
-                                                      :created created}])}
-           [:div {:class (str "text-gray-" color-modifier " text-lg font-bold")} name]
-           [:div {:class (str "text-gray-" color-modifier " text-lg font-medium")} (date-string created)]]
+      [:div {:class ["flex" "justify-start" "border" "border-2" "py-4" "rounded-xl" "min-h-[7rem]" "bg-white" (if (zero? quantity) "border-gray-400" "border-gray-900")]}
+       (when (and @show-locations? (pos? quantity))
+         [item-sections id section-ids])
+       [:div {:class "grid grid-cols-5 gap-x-1 mg:gap-x-6 flex-auto"}
+        [:div.col-span-3.cursor-pointer.flex.flex-col.justify-center.items-center.text-center.gap-1.px-2
+         {:on-click #(rf/dispatch [:form/open-edit {:id id
+                                                    :name name
+                                                    :quantity quantity
+                                                    :created created}])}
+         [:div {:class ["select-none" "text-lg" "font-bold" (if (zero? quantity) "text-gray-400" "text-gray-900")]} name]
+         [:div {:class ["select-none" "text-lg" "font-medium" (if (zero? quantity) "text-gray-400" "text-gray-900")]} (date-string created)]]
 
-          [:div {:class (str "text-gray-" color-modifier " border-gray-" color-modifier " col-span-2 flex justify-between items-center pr-4")}
-           [:div.text-5xl.font-medium
-            quantity]
-           [decrement-button id]]]]))))
+        [:div {:class ["col-span-2" "flex" "justify-between" "items-center" "pr-4" (if (zero? quantity) "text-gray-400 border-gray-400" "text-gray-900 border-gray-900")]}
+         [:div.text-5xl.font-medium
+          quantity]
+         (when (pos? quantity) [decrement-button id])]]])))
