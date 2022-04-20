@@ -56,6 +56,7 @@
           [:div.mt-2.font-bold "Instructions:"]
           [:div.mt-1 "Add a new meal using the \"+\" button."]
           [:div.mt-1 "Once something's been taken out of the freezer, reduce the amount with the \"-\" button."]
-          [:div.mt-1 "The small boxes to the left indicate where in the freezer the item is (e.g. top drawer, middle drawer, bottom draw)."]
+          [:div.mt-1 "Edit or delete a meal by tapping on its name."]
+          [:div.mt-1 "The small boxes to the left indicate where in the freezer the meal is (e.g. top drawer, middle drawer, bottom draw)."]
           [:div "The number of boxes and their colours can be changed in the setup screen (gear icon)."]]]]])))
 
