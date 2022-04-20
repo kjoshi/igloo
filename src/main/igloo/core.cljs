@@ -4,7 +4,7 @@
             [igloo.init]
             [re-frame.core :as rf]))
 
-(enable-console-print!) 
+(enable-console-print!)
 
 (defn app
   []
@@ -19,7 +19,6 @@
   ;; init is called ONCE when the page loads
   ;; this is called in the index.html and must be exported
   ;; so it is available even in :advanced release builds
-  (js/console.log "init")
   (rf/dispatch-sync [:app/initialize])
   (start))
 
