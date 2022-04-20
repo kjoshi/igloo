@@ -9,7 +9,7 @@
     "dev": "run-p -l *:watch",
     "release": "run-s *:release",
     "deploy:dev": "npm run release && netlify deploy --dir=public",
-    "deploy:prod": "npm run release && netlify deploy --dir=public --prod"
+    "deploy:prod": "netlify deploy --dir=public --prod"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.0",
