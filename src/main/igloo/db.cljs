@@ -102,20 +102,3 @@
    :announcement-visible? false
    :freezer (into (sorted-map) default-freezer)})
 
-(defn initial-data [sections]
-  (vec (vals sections)))
-
-(comment
-
-  default-db
-  (s/explain ::db default-db)
-
-  (s/explain ::form {:active-mode :new})
-
-  (s/valid? #{true false} false)
-
-  (remove #{2} [1 2 3])
-
-  (initial-data default-freezer)
-;
-) ; nil

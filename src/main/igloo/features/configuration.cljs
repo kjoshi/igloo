@@ -190,11 +190,4 @@
          [:div.text-xl.text-gray-900.mt-2 "Setup freezer sections:"
           [fork-form]]]]])))
 
-(comment
 
-  (form-vals->map [{:id 1, :name "Top drawer", :colour "#048ba8"}
-                   {:id 2, :name "Middle drawer", :colour "#ff715b"}
-                   {:id 3, :name "Bottom drawer", :colour "#99c24d"}])
-
-;
-  )

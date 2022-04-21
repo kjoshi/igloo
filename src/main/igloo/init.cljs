@@ -1,9 +1,7 @@
 (ns igloo.init
   (:require [igloo.db :as db]
             [igloo.features.common :as common]
-            [re-frame.core :as rf]
-            ))
-
+            [re-frame.core :as rf]))
 
 (defn add-local-items [db local-items]
   (cond-> db
@@ -29,11 +27,3 @@
             (add-local-store-db local-store-db)
             (set-announcement-visibility))}))
 
-(comment
-
-  (-> db/default-db
-      (add-local-items nil)
-      (set-announcement-visibility)) ; nil
-
-;
-  )

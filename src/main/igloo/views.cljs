@@ -70,15 +70,3 @@
        [item-dialog]
        [announcement-dialog]
        [config-form]])))
-
-
-
-
-
-
-
-
-
-
-
-

@@ -14,15 +14,4 @@
         day-str (str (js/parseInt day))]
     (str day-str " " month-str)))
 
-(comment
-  (date-string (js/Date.))
 
-  (.parse js/Date "2022-04-02")
-
-  (re-seq #"\d+" "2022-04-02")
-
-  (date-string "2022-03-23")
-
-  (current-date)
-  ;
-  )
